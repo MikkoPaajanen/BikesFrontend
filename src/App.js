@@ -15,6 +15,8 @@ const App = () => {
       })
   }, [])
   console.log('bikes', bikes)
+
+  
   return (
     <div className="app">
       <h1>Tervetuloa pyöräkauppaan!</h1>

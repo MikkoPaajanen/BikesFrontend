@@ -8,4 +8,15 @@ const getAll = async () => {
   return response.data
 }
 
-export default { getAll }
+const create = async (newBike) => {
+  const bikeToPost = {
+    brand: newBike.brand,
+    model: newBike.model,
+    year: newBike.year,
+    price: newBike.price
+  }
+  const response = await axios.put(baseUrl, bikeToPost)
+  return response.data
+}
+
+export default { getAll, create }

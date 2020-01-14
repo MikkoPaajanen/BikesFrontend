@@ -1,8 +1,13 @@
 import React from 'react'
 
+
 const NewBike = () => {
+
+  const addBike = () => {
+  }
+
   return (
-    <form>
+    <form onSubmit={addBike}>
         <h2>Lisää pyörä</h2>
         <table>
           <tbody>
@@ -24,7 +29,7 @@ const NewBike = () => {
             </tr>
             <tr>
               <td>
-                <button>Lähetä</button>
+                <button type='submit'>Lähetä</button>
               </td>
             </tr>
           </tbody>        
