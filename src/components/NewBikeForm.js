@@ -1,9 +1,27 @@
 import React from 'react'
+import bikeService from '../services/bikes'
 
 
-const NewBike = () => {
+const NewBike = ({
+  brand,
+  model,
+  year,
+  price,
+  bikes,
+  setBikes
+}) => {
 
-  const addBike = () => {
+  const addBike = async (event) => {
+    event.preventDefault()
+    const newBike = {
+      brand: brand.value,
+      model: model.value,
+      year: year.value,
+      price: price.value
+    }
+    console.log('newbike', newBike)
+    const returnedBike = await bikeService.create(newBike)
+    setBikes(bikes.concat(returnedBike))
   }
 
   return (
@@ -13,19 +31,19 @@ const NewBike = () => {
           <tbody>
             <tr>
               <td>Merkki</td>
-              <td><input></input></td>
+              <td><input {...brand}></input></td>
             </tr>
             <tr>
               <td>Malli</td>
-              <td><input></input></td>
+              <td><input {...model}></input></td>
             </tr>
             <tr>
               <td>Vuosimalli</td>
-              <td><input></input></td>
+              <td><input {...year}></input></td>
             </tr>
             <tr>
               <td>Hinta</td>
-              <td><input></input></td>
+              <td><input {...price}></input></td>
             </tr>
             <tr>
               <td>

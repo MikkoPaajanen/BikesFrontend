@@ -15,7 +15,7 @@ const create = async (newBike) => {
     year: newBike.year,
     price: newBike.price
   }
-  const response = await axios.put(baseUrl, bikeToPost)
+  const response = await axios.post(baseUrl, bikeToPost)
   return response.data
 }
 
