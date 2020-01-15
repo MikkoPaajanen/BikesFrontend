@@ -21,6 +21,22 @@ const App = () => {
   }, [])
   console.log('bikes', bikes)
 
+  const addBike = async (event) => {
+    event.preventDefault()
+    const newBike = {
+      brand: brand.value,
+      model: model.value,
+      year: year.value,
+      price: price.value
+    }
+    console.log('newbike', newBike)
+    const returnedBike = await bikeService.create(newBike)
+    setBikes(bikes.concat(returnedBike))
+    brand.reset()
+    model.reset()
+    year.reset()
+    price.reset()
+  }
   
   return (
     <div className="app">
@@ -29,7 +45,7 @@ const App = () => {
         Tämä on käytettyjen pyörien kauppapaikka. Täältä löydät niin käytetyt pyörät, kuin varusteetkin.
       </p>
       <NewBikeForm 
-        brand={brand} model={model} year={year} price={price} bikes={bikes} setBikes={setBikes}
+        brand={brand} model={model} year={year} price={price} addBike={addBike}
       />
       <BikesList bikes={bikes} />
     </div>

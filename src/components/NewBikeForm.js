@@ -1,5 +1,4 @@
 import React from 'react'
-import bikeService from '../services/bikes'
 
 
 const NewBike = ({
@@ -7,22 +6,8 @@ const NewBike = ({
   model,
   year,
   price,
-  bikes,
-  setBikes
+  addBike
 }) => {
-
-  const addBike = async (event) => {
-    event.preventDefault()
-    const newBike = {
-      brand: brand.value,
-      model: model.value,
-      year: year.value,
-      price: price.value
-    }
-    console.log('newbike', newBike)
-    const returnedBike = await bikeService.create(newBike)
-    setBikes(bikes.concat(returnedBike))
-  }
 
   return (
     <form onSubmit={addBike}>
@@ -31,19 +16,19 @@ const NewBike = ({
           <tbody>
             <tr>
               <td>Merkki</td>
-              <td><input {...brand}></input></td>
+              <td><input {...brand.withoutReset}></input></td>
             </tr>
             <tr>
               <td>Malli</td>
-              <td><input {...model}></input></td>
+              <td><input {...model.withoutReset}></input></td>
             </tr>
             <tr>
               <td>Vuosimalli</td>
-              <td><input {...year}></input></td>
+              <td><input {...year.withoutReset}></input></td>
             </tr>
             <tr>
               <td>Hinta</td>
-              <td><input {...price}></input></td>
+              <td><input {...price.withoutReset}></input></td>
             </tr>
             <tr>
               <td>

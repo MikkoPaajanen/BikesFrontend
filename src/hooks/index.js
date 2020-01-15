@@ -15,5 +15,11 @@ export const useField = (type) => {
     type,
     value,
     onChange,
+    reset,
+    withoutReset: {
+      type,
+      value,
+      onChange,
+    }
   }
 }
