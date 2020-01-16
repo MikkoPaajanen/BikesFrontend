@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NewBikeForm from './components/NewBikeForm'
 import BikesList from './components/BikesList'
+import FilterBikes from './components/FilterBikes'
 import bikeService from './services/bikes'
 import { useField } from './hooks/index'
 import './App.css'
@@ -11,6 +12,8 @@ const App = () => {
   const model = useField('text')
   const year = useField('text')
   const price = useField('text')
+  const [ searchBrand, setSearchBrand ] = useState('')
+  const [ toShow, setToShow ] = useState(false)
 
   useEffect(() => {
     bikeService
@@ -37,6 +40,23 @@ const App = () => {
     year.reset()
     price.reset()
   }
+
+  const bikesToShow = () => {
+    if (toShow === false) {
+      return <BikesList bikes={bikes} />
+    } else {
+      console.log('what', bikes.filter(bike => bike.brand.includes(searchBrand)))
+      return <BikesList bikes={bikes.filter(bike => bike.brand.includes(searchBrand))} />
+    }
+  }
+
+  const filterBikes = (event) => {
+    event.preventDefault()
+    console.log('does this happen')
+    setToShow(true)
+  }
+  console.log('searchBrand', searchBrand)
+  
   
   return (
     <div className="app">
@@ -47,7 +67,8 @@ const App = () => {
       <NewBikeForm 
         brand={brand} model={model} year={year} price={price} addBike={addBike}
       />
-      <BikesList bikes={bikes} />
+      <FilterBikes filterBikes={filterBikes} bikes={bikes} handleBrandChange={({target}) => setSearchBrand(target.value)}/>
+      {bikesToShow()}
     </div>
   )
 }
