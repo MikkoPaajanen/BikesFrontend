@@ -57,7 +57,16 @@ const App = () => {
   }
   console.log('searchBrand', searchBrand)
   
-  
+  const handleBrandChange = ({target}) => {
+    setSearchBrand(target.value)
+    setToShow(false)
+  }
+
+  const clear = (event) => {
+    event.preventDefault()
+    setToShow(false)
+  }
+
   return (
     <div className="app">
       <h1>Tervetuloa pyöräkauppaan!</h1>
@@ -67,7 +76,12 @@ const App = () => {
       <NewBikeForm 
         brand={brand} model={model} year={year} price={price} addBike={addBike}
       />
-      <FilterBikes filterBikes={filterBikes} bikes={bikes} handleBrandChange={({target}) => setSearchBrand(target.value)}/>
+      <FilterBikes 
+      filterBikes={filterBikes} 
+      bikes={bikes} 
+      handleBrandChange={handleBrandChange}
+      clear={clear}
+      />
       {bikesToShow()}
     </div>
   )
