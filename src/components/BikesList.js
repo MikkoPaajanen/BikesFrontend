@@ -1,11 +1,11 @@
 import React from 'react'
 
-const BikesList = ({ bikes }) => {
+const BikesList = ({ bikes, bikeInfo }) => {
   console.log('bikeslist', bikes)
   return (
     <div>
       {bikes.map(bike => (
-        <table key={bike.id}>
+        <table key={bike.id} onClick={() => bikeInfo(bike)} value={bike.id}>
           <tbody>
             <tr>
               <td>{bike.brand}</td>

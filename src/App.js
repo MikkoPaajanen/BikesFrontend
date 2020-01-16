@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import NewBikeForm from './components/NewBikeForm'
 import BikesList from './components/BikesList'
 import FilterBikes from './components/FilterBikes'
+import OneBike from './components/OneBike'
 import bikeService from './services/bikes'
 import { useField } from './hooks/index'
 import './App.css'
@@ -14,6 +15,10 @@ const App = () => {
   const price = useField('text')
   const [ searchBrand, setSearchBrand ] = useState('')
   const [ toShow, setToShow ] = useState(false)
+  const [ bikeToShow, setBikeToShow ] = useState('')
+  const [ showOne, setShowOne ] = useState(false)
+  const [ addNew, setAddNew ] = useState(false)
+  const [ buttonText, setButtonText ] = useState('Lisää pyörä')
 
   useEffect(() => {
     bikeService
@@ -42,11 +47,13 @@ const App = () => {
   }
 
   const bikesToShow = () => {
-    if (toShow === false) {
-      return <BikesList bikes={bikes} />
-    } else {
+    if (showOne) {
+      return <OneBike bike={bikeToShow} backToList={backToList} />
+    } else if (toShow === false) {
+      return <BikesList bikes={bikes} bikeInfo={bikeInfo} />
+    } else if (toShow === true) {
       console.log('what', bikes.filter(bike => bike.brand.includes(searchBrand)))
-      return <BikesList bikes={bikes.filter(bike => bike.brand.includes(searchBrand))} />
+      return <BikesList bikes={bikes.filter(bike => bike.brand.includes(searchBrand))} bikeInfo={bikeInfo} />
     }
   }
 
@@ -55,8 +62,33 @@ const App = () => {
     console.log('does this happen')
     setToShow(true)
   }
-  console.log('searchBrand', searchBrand)
   
+  const bikeInfo = (clickedBike) => {
+    setBikeToShow(bikes.find(bike => bike.id === clickedBike.id))
+    setShowOne(true)
+  }
+
+  const handleNewBikeForm = () => {
+    if (addNew === false) {
+      setAddNew(true)
+      setButtonText('Sulje')
+    } else {
+      setAddNew(false)
+      setButtonText('Lisää pyörä')
+    }
+  }
+  const showAddBike = () => {
+    if (addNew === true) {
+      return <NewBikeForm 
+      brand={brand} model={model} year={year} price={price} addBike={addBike}
+      />
+    } else return <div></div>
+  }
+
+  const backToList = () => {
+    setShowOne(false)
+  }
+
   const handleBrandChange = ({target}) => {
     setSearchBrand(target.value)
     setToShow(false)
@@ -73,14 +105,14 @@ const App = () => {
       <p>
         Tämä on käytettyjen pyörien kauppapaikka. Täältä löydät niin käytetyt pyörät, kuin varusteetkin.
       </p>
-      <NewBikeForm 
-        brand={brand} model={model} year={year} price={price} addBike={addBike}
-      />
+      <button onClick={handleNewBikeForm}>{buttonText}</button>
+      {showAddBike()}
       <FilterBikes 
       filterBikes={filterBikes} 
       bikes={bikes} 
       handleBrandChange={handleBrandChange}
       clear={clear}
+      bikeInfo={bikeInfo}
       />
       {bikesToShow()}
     </div>
