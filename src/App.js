@@ -4,8 +4,10 @@ import BikesList from './components/BikesList'
 import FilterBikes from './components/FilterBikes'
 import OneBike from './components/OneBike'
 import LoginForm from './components/LoginForm'
+import RegisterForm from './components/RegisterForm'
 import bikeService from './services/bikes'
 import loginService from './services/login'
+import registerService from './services/register'
 import { useField } from './hooks/index'
 import './App.css'
 
@@ -23,7 +25,15 @@ const App = () => {
   const [ buttonText, setButtonText ] = useState('Lisää pyörä')
   const username = useField('text')
   const password = useField('password')
+  const firstname = useField('text')
+  const lastname = useField('text')
+  const newUserUsername = useField('text')
+  const newUserPassword = useField('password')
   const [ user, setUser ] = useState(null)
+  const [ showRegister, setShowRegister ] = useState(false)
+  const [ showLogin, setShowLogin ] = useState(false)
+  const [ regButton, setRegButton ] = useState('Rekisteröidy')
+  const [ logButton, setLogButton ] = useState('Kirjaudu sisään')
 
   useEffect(() => {
     bikeService
@@ -106,6 +116,24 @@ const App = () => {
     setToShow(false)
   }
 
+  const handleRegister = async (event) => {
+    event.preventDefault()
+    try {
+      await registerService.createUser({
+        firstname: firstname.value,
+        lastname: lastname.value,
+        username: newUserUsername.value,
+        password: newUserPassword.value
+      })
+      firstname.reset()
+      lastname.reset()
+      newUserUsername.reset()
+      newUserPassword.reset()
+    } catch (exception) {
+      console.log('something missing')
+    }
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -130,24 +158,46 @@ const App = () => {
     window.localStorage.clear()
   }
 
+  const handleRegButton = () => {
+    if (showRegister === false) {
+      setShowRegister(true)
+      setRegButton('Sulje rekisteröintilomake')
+    } else {
+      setShowRegister(false)
+      setRegButton('Rekisteröidy')
+    }
+  }
+  const handleLogButton = () => {
+    if (showLogin === false) {
+      setShowLogin(true)
+      setLogButton('Sulje kirjautumislomake')
+    } else {
+      setShowLogin(false)
+      setLogButton('Kirjaudu sisään')
+    }
+  }
+
   return (
     <div className="app">
       <h1>Tervetuloa pyöräkauppaan!</h1>
       <p>
         Tämä on käytettyjen pyörien kauppapaikka. Täältä löydät niin käytetyt pyörät, kuin varusteetkin.
       </p>
+      {user === null && <button onClick={handleRegButton}>{regButton}</button>}
+      {user === null && <button onClick={handleLogButton}>{logButton}</button>}
+      {showRegister === true && <RegisterForm username={newUserUsername} password={newUserPassword} firstname={firstname} lastname={lastname} handleRegister={handleRegister}/>}
       {user !== null && <button onClick={logoutHandler}>Kirjaudu ulos</button>}
-      {user === null && <LoginForm username={username} password={password} handleLogin={handleLogin} /> }
+      {showLogin === true && <LoginForm username={username} password={password} handleLogin={handleLogin} /> }
       {user !== null && <button onClick={handleNewBikeForm}>{buttonText}</button>}
       {addNew === true && <NewBikeForm 
       brand={brand} model={model} year={year} price={price} addBike={addBike}
       />}
       <FilterBikes 
-      filterBikes={filterBikes} 
-      bikes={bikes} 
-      handleBrandChange={handleBrandChange}
-      clear={clear}
-      bikeInfo={bikeInfo}
+        filterBikes={filterBikes} 
+        bikes={bikes} 
+        handleBrandChange={handleBrandChange}
+        clear={clear}
+        bikeInfo={bikeInfo}
       />
       <br/>
       {bikesToShow()}
