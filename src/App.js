@@ -3,7 +3,9 @@ import NewBikeForm from './components/NewBikeForm'
 import BikesList from './components/BikesList'
 import FilterBikes from './components/FilterBikes'
 import OneBike from './components/OneBike'
+import LoginForm from './components/LoginForm'
 import bikeService from './services/bikes'
+import loginService from './services/login'
 import { useField } from './hooks/index'
 import './App.css'
 
@@ -19,6 +21,9 @@ const App = () => {
   const [ showOne, setShowOne ] = useState(false)
   const [ addNew, setAddNew ] = useState(false)
   const [ buttonText, setButtonText ] = useState('Lisää pyörä')
+  const username = useField('text')
+  const password = useField('password')
+  const [ user, setUser ] = useState(null)
 
   useEffect(() => {
     bikeService
@@ -28,6 +33,15 @@ const App = () => {
       })
   }, [])
   console.log('bikes', bikes)
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      //bikeService.setToken(user.token)
+    }
+  }, [])
 
   const addBike = async (event) => {
     event.preventDefault()
@@ -77,13 +91,6 @@ const App = () => {
       setButtonText('Lisää pyörä')
     }
   }
-  const showAddBike = () => {
-    if (addNew === true) {
-      return <NewBikeForm 
-      brand={brand} model={model} year={year} price={price} addBike={addBike}
-      />
-    } else return <div></div>
-  }
 
   const backToList = () => {
     setShowOne(false)
@@ -99,14 +106,42 @@ const App = () => {
     setToShow(false)
   }
 
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username: username.value,
+        password: password.value
+      })
+      window.localStorage.setItem(
+        'loggedAppUser', JSON.stringify(user)
+      )
+      bikeService.setToken(user.token)
+      setUser(user)
+      username.reset()
+      password.reset()
+    } catch (exception) {
+        console.log('wrong credentials')
+    }
+  }
+
+  const logoutHandler = () => {
+    setUser(null)
+    window.localStorage.clear()
+  }
+
   return (
     <div className="app">
       <h1>Tervetuloa pyöräkauppaan!</h1>
       <p>
         Tämä on käytettyjen pyörien kauppapaikka. Täältä löydät niin käytetyt pyörät, kuin varusteetkin.
       </p>
-      <button onClick={handleNewBikeForm}>{buttonText}</button>
-      {showAddBike()}
+      {user !== null && <button onClick={logoutHandler}>Kirjaudu ulos</button>}
+      {user === null && <LoginForm username={username} password={password} handleLogin={handleLogin} /> }
+      {user !== null && <button onClick={handleNewBikeForm}>{buttonText}</button>}
+      {addNew === true && <NewBikeForm 
+      brand={brand} model={model} year={year} price={price} addBike={addBike}
+      />}
       <FilterBikes 
       filterBikes={filterBikes} 
       bikes={bikes} 
@@ -114,6 +149,7 @@ const App = () => {
       clear={clear}
       bikeInfo={bikeInfo}
       />
+      <br/>
       {bikesToShow()}
     </div>
   )
