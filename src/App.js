@@ -8,6 +8,7 @@ import RegisterForm from './components/RegisterForm'
 import bikeService from './services/bikes'
 import loginService from './services/login'
 import registerService from './services/register'
+import imageService from './services/images'
 import { useField } from './hooks/index'
 import './App.css'
 
@@ -34,6 +35,7 @@ const App = () => {
   const [ showLogin, setShowLogin ] = useState(false)
   const [ regButton, setRegButton ] = useState('Rekisteröidy')
   const [ logButton, setLogButton ] = useState('Kirjaudu sisään')
+  const [ image, setImage ] = useState(null)
 
   useEffect(() => {
     bikeService
@@ -45,16 +47,21 @@ const App = () => {
   console.log('bikes', bikes)
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      //bikeService.setToken(user.token)
+      bikeService.setToken(user.token)
     }
   }, [])
 
   const addBike = async (event) => {
     event.preventDefault()
+    console.log('image', image)
+    const data = new FormData()
+    data.append('File', image)
+    const returnedImage = await imageService.create(data)
+    console.log('returnedImage', returnedImage)
     const newBike = {
       brand: brand.value,
       model: model.value,
@@ -68,6 +75,12 @@ const App = () => {
     model.reset()
     year.reset()
     price.reset()
+    
+  }
+
+  const handleImage = (event) => {
+    console.log('event target files', event.target.files[0])
+    setImage(event.target.files[0])
   }
 
   const bikesToShow = () => {
@@ -146,6 +159,7 @@ const App = () => {
       )
       bikeService.setToken(user.token)
       setUser(user)
+      setShowLogin(false)
       username.reset()
       password.reset()
     } catch (exception) {
@@ -177,12 +191,14 @@ const App = () => {
     }
   }
 
+
   return (
     <div className="app">
       <h1>Tervetuloa pyöräkauppaan!</h1>
       <p>
         Tämä on käytettyjen pyörien kauppapaikka. Täältä löydät niin käytetyt pyörät, kuin varusteetkin.
       </p>
+      
       {user === null && <button onClick={handleRegButton}>{regButton}</button>}
       {user === null && <button onClick={handleLogButton}>{logButton}</button>}
       {showRegister === true && <RegisterForm username={newUserUsername} password={newUserPassword} firstname={firstname} lastname={lastname} handleRegister={handleRegister}/>}
@@ -190,7 +206,7 @@ const App = () => {
       {showLogin === true && <LoginForm username={username} password={password} handleLogin={handleLogin} /> }
       {user !== null && <button onClick={handleNewBikeForm}>{buttonText}</button>}
       {addNew === true && <NewBikeForm 
-      brand={brand} model={model} year={year} price={price} addBike={addBike}
+      brand={brand} model={model} year={year} price={price} addBike={addBike} handleImage={handleImage}
       />}
       <FilterBikes 
         filterBikes={filterBikes} 

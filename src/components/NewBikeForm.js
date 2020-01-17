@@ -6,7 +6,8 @@ const NewBike = ({
   model,
   year,
   price,
-  addBike
+  addBike,
+  handleImage
 }) => {
 
   return (
@@ -29,6 +30,10 @@ const NewBike = ({
             <tr>
               <td>Hinta</td>
               <td><input {...price.withoutReset}></input></td>
+            </tr>
+            <tr>
+              <td>Kuva</td>
+              <td><input type='file' onChange={handleImage}></input></td>
             </tr>
             <tr>
               <td>

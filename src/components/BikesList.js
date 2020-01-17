@@ -11,7 +11,7 @@ const BikesList = ({ bikes, bikeInfo }) => {
               <td>{bike.brand}</td>
               <td>{bike.model}</td>
               <td>{bike.year}</td>
-              <td>{bike.price}</td>
+              <td>{bike.price}€</td>
             </tr>
           </tbody>
         </table>))
