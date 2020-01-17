@@ -22,7 +22,8 @@ const create = async (newBike) => {
     brand: newBike.brand,
     model: newBike.model,
     year: newBike.year,
-    price: newBike.price
+    price: newBike.price,
+    imgUrl: newBike.imgUrl
   }
   const response = await axios.post(baseUrl, bikeToPost, config)
   return response.data

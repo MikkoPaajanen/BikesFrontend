@@ -7,7 +7,8 @@ const NewBike = ({
   year,
   price,
   addBike,
-  handleImage
+  handleImage,
+  image
 }) => {
 
   return (

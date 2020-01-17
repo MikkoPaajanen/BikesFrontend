@@ -66,7 +66,8 @@ const App = () => {
       brand: brand.value,
       model: model.value,
       year: year.value,
-      price: price.value
+      price: price.value,
+      imgUrl: returnedImage
     }
     console.log('newbike', newBike)
     const returnedBike = await bikeService.create(newBike)
@@ -76,6 +77,7 @@ const App = () => {
     year.reset()
     price.reset()
     
+    setAddNew(false)
   }
 
   const handleImage = (event) => {
@@ -206,7 +208,7 @@ const App = () => {
       {showLogin === true && <LoginForm username={username} password={password} handleLogin={handleLogin} /> }
       {user !== null && <button onClick={handleNewBikeForm}>{buttonText}</button>}
       {addNew === true && <NewBikeForm 
-      brand={brand} model={model} year={year} price={price} addBike={addBike} handleImage={handleImage}
+      brand={brand} model={model} year={year} price={price} addBike={addBike} handleImage={handleImage} image={image}
       />}
       <FilterBikes 
         filterBikes={filterBikes} 
