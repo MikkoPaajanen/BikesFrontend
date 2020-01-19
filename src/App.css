@@ -1,4 +1,59 @@
 .app {
-  padding: 10px;
-
+  margin: 0;
+  padding: 0;
+}
+.headerbackground {
+  width: 100%;
+  height: 150px;
+  background-color: steelblue;
+  top: 0;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.header {
+  width: 70%;
+  float: left;
+  margin: 10px;
+  font-size: 300%;
+}
+.info {
+  width: 70%;
+  float: left;
+  margin: 10px;
+  font-size: 130%;
+}
+.buttons {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  cursor: pointer;
+}
+.logregforms {
+  position: absolute;
+  top: 200px;
+  right: 10px;
+}
+.newbikeform {
+  margin: 0 auto;
+  padding: 0;
+  width: 50%;
+}
+.filterbikes {
+  position: absolute;
+  top: 200px;
+  right: 50px;
+  margin: 0;
+  
+}
+.footer {
+  height: 40px;
+  width: 100%;
+  margin: 20px 0 0 0;
+  background-color: steelblue;
+}
+.footertext {
+  padding-top: 12px;
+  font-style: italic;
+  text-align: center;
 }

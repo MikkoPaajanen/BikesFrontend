@@ -1,0 +1,36 @@
+.table {
+  width: 50%;
+  margin: 20px auto;
+  border: 1px solid black;
+}
+.bikesdata {
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+}
+.bikesbrand, .bikesmodel, .bikesyear, .bikesprice {
+  margin: 0;
+  padding: 10px;
+  width: 90px;
+  text-align: left;
+  font-weight: bold;
+}
+.table table:nth-child(odd) {
+  background-color: white;
+}
+.table table:nth-child(even) {
+  background-color: lightgray;
+}
+.textinfo {
+  margin-left: 30px;
+  padding-left: 30px;
+}
+.image {
+  height: 120px;
+  width: 120px;
+  padding-right: 40px;
+}
+.thumbnail {
+  height: 120px;
+  width: 120px;
+}

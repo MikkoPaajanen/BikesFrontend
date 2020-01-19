@@ -1,17 +1,21 @@
 import React from 'react'
+import '../bikeslist.css'
 
 const BikesList = ({ bikes, bikeInfo }) => {
   console.log('bikeslist', bikes)
   return (
-    <div>
+    <div className='table'>
       {bikes.map(bike => (
-        <table key={bike.id} onClick={() => bikeInfo(bike)} value={bike.id}>
+        <table  className='bikesdata' key={bike.id} onClick={() => bikeInfo(bike)} value={bike.id}>
           <tbody>
             <tr>
-              <td>{bike.brand}</td>
-              <td>{bike.model}</td>
-              <td>{bike.year}</td>
-              <td>{bike.price}€</td>
+              <td className='image'>
+                <img className='thumbnail' src={bike.imgUrl} alt='bike'></img>
+              </td>
+              <td className='bikesbrand'>{bike.brand}</td>
+              <td className='bikesmodel'>{bike.model}</td>
+              <td className='bikesyear'>{bike.year}</td>
+              <td className='bikesprice'>{bike.price}€</td>
             </tr>
           </tbody>
         </table>))

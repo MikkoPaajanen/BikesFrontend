@@ -36,6 +36,7 @@ const App = () => {
   const [ regButton, setRegButton ] = useState('Rekisteröidy')
   const [ logButton, setLogButton ] = useState('Kirjaudu sisään')
   const [ image, setImage ] = useState(null)
+  const [ showSearch, setShowSearch ] = useState(true)
 
   useEffect(() => {
     bikeService
@@ -78,6 +79,7 @@ const App = () => {
     price.reset()
     
     setAddNew(false)
+    setButtonText('Lisää pyörä')
   }
 
   const handleImage = (event) => {
@@ -105,6 +107,7 @@ const App = () => {
   const bikeInfo = (clickedBike) => {
     setBikeToShow(bikes.find(bike => bike.id === clickedBike.id))
     setShowOne(true)
+    setShowSearch(false)
   }
 
   const handleNewBikeForm = () => {
@@ -119,6 +122,7 @@ const App = () => {
 
   const backToList = () => {
     setShowOne(false)
+    setShowSearch(true)
   }
 
   const handleBrandChange = ({target}) => {
@@ -178,47 +182,68 @@ const App = () => {
     if (showRegister === false) {
       setShowRegister(true)
       setRegButton('Sulje rekisteröintilomake')
+      setShowSearch(false)
     } else {
       setShowRegister(false)
       setRegButton('Rekisteröidy')
+      setShowSearch(true)
+      setShowLogin(false)
+      setLogButton('Kirjaudu sisään')
     }
   }
   const handleLogButton = () => {
     if (showLogin === false) {
       setShowLogin(true)
       setLogButton('Sulje kirjautumislomake')
+      setShowSearch(false)
     } else {
       setShowLogin(false)
       setLogButton('Kirjaudu sisään')
+      setShowSearch(true)
+      setShowRegister(false)
+      setRegButton('Rekisteröidy')
     }
   }
 
 
   return (
     <div className="app">
-      <h1>Tervetuloa pyöräkauppaan!</h1>
-      <p>
-        Tämä on käytettyjen pyörien kauppapaikka. Täältä löydät niin käytetyt pyörät, kuin varusteetkin.
-      </p>
-      
-      {user === null && <button onClick={handleRegButton}>{regButton}</button>}
-      {user === null && <button onClick={handleLogButton}>{logButton}</button>}
-      {showRegister === true && <RegisterForm username={newUserUsername} password={newUserPassword} firstname={firstname} lastname={lastname} handleRegister={handleRegister}/>}
-      {user !== null && <button onClick={logoutHandler}>Kirjaudu ulos</button>}
-      {showLogin === true && <LoginForm username={username} password={password} handleLogin={handleLogin} /> }
-      {user !== null && <button onClick={handleNewBikeForm}>{buttonText}</button>}
-      {addNew === true && <NewBikeForm 
-      brand={brand} model={model} year={year} price={price} addBike={addBike} handleImage={handleImage} image={image}
-      />}
-      <FilterBikes 
-        filterBikes={filterBikes} 
-        bikes={bikes} 
-        handleBrandChange={handleBrandChange}
-        clear={clear}
-        bikeInfo={bikeInfo}
-      />
-      <br/>
-      {bikesToShow()}
+      <div className='headerbackground'>
+        <h1 className='header'>Tervetuloa pyöräkauppaan!</h1>
+        <p className='info'>
+          Tämä on käytettyjen pyörien kauppapaikka. Täältä löydät niin käytetyt pyörät, kuin varusteetkin.
+        </p>
+      </div>
+      <div className='buttons'>
+        {user === null && <button onClick={handleRegButton}>{regButton}</button>}
+        {user === null && <button onClick={handleLogButton}>{logButton}</button>}
+        {user !== null && showOne === false && <button onClick={handleNewBikeForm}>{buttonText}</button>}
+        {user !== null && <button onClick={logoutHandler}>Kirjaudu ulos</button>}
+      </div>
+      <div className='logregforms'>
+        {showRegister === true && <RegisterForm username={newUserUsername} password={newUserPassword} firstname={firstname} lastname={lastname} handleRegister={handleRegister}/>}
+        {showLogin === true && <LoginForm username={username} password={password} handleLogin={handleLogin} /> }
+      </div>
+      <div className='newbikeform'>
+        {addNew === true && <NewBikeForm 
+          brand={brand} model={model} year={year} price={price} addBike={addBike} handleImage={handleImage}
+        />}
+      </div>
+      <div className='filterbikes'>
+        {showSearch === true && <FilterBikes 
+          filterBikes={filterBikes} 
+          bikes={bikes} 
+          handleBrandChange={handleBrandChange}
+          clear={clear}
+          bikeInfo={bikeInfo}
+        />}
+      </div>
+      <div className='bikeslist'>
+        {bikesToShow()}
+      </div>
+      <div className='footer'>
+        <p className='footertext'>Copyright Mikko Paajanen 2020</p>
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import '../newbikeform.css'
 
 const NewBike = ({
   brand,
@@ -7,12 +7,11 @@ const NewBike = ({
   year,
   price,
   addBike,
-  handleImage,
-  image
+  handleImage
 }) => {
 
   return (
-    <form onSubmit={addBike}>
+    <form className='newbikeform' onSubmit={addBike}>
         <h2>Lisää pyörä</h2>
         <table>
           <tbody>

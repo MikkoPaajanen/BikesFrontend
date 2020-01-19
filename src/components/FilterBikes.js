@@ -1,4 +1,5 @@
 import React from 'react'
+import '../filterbikes.css'
 
 
 const FilterBikes = ({
@@ -12,10 +13,10 @@ const FilterBikes = ({
   const uniqueBrands = [...new Set(brands)]
   console.log('brands', uniqueBrands)
   return (
-    <div>
+    <div className='search'>
       <h2>Haku</h2>
       <form onSubmit={filterBikes}>
-        <select onChange={handleBrandChange} >
+        <select className='brand' onChange={handleBrandChange} >
           <option key='-'>Merkki</option>
           {uniqueBrands.map(brand => <option key={brand} value={brand}>{brand}</option>)}
         </select>
