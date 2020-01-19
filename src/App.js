@@ -18,6 +18,8 @@ const App = () => {
   const model = useField('text')
   const year = useField('text')
   const price = useField('text')
+  const location = useField('text')
+  const description = useField('text')
   const [ searchBrand, setSearchBrand ] = useState('')
   const [ toShow, setToShow ] = useState(false)
   const [ bikeToShow, setBikeToShow ] = useState('')
@@ -37,6 +39,8 @@ const App = () => {
   const [ logButton, setLogButton ] = useState('Kirjaudu sisään')
   const [ image, setImage ] = useState(null)
   const [ showSearch, setShowSearch ] = useState(true)
+  const [ type, setType ] = useState('')
+
 
   useEffect(() => {
     bikeService
@@ -64,10 +68,13 @@ const App = () => {
     const returnedImage = await imageService.create(data)
     console.log('returnedImage', returnedImage)
     const newBike = {
+      type: type,
       brand: brand.value,
       model: model.value,
       year: year.value,
       price: price.value,
+      location: location.value,
+      description: description.value,
       imgUrl: returnedImage
     }
     console.log('newbike', newBike)
@@ -77,6 +84,8 @@ const App = () => {
     model.reset()
     year.reset()
     price.reset()
+    location.reset()
+    description.reset()
     
     setAddNew(false)
     setButtonText('Lisää pyörä')
@@ -88,8 +97,16 @@ const App = () => {
   }
 
   const bikesToShow = () => {
+    console.log('user', user)
+    const userToCheck = () => {
+      if (user !== null) {
+        return user.username
+      } else {
+        return 'testdude'
+      }
+    }
     if (showOne) {
-      return <OneBike bike={bikeToShow} backToList={backToList} />
+      return <OneBike bike={bikeToShow} backToList={backToList} handleDelete={handleDelete} username={userToCheck()} />
     } else if (toShow === false) {
       return <BikesList bikes={bikes} bikeInfo={bikeInfo} />
     } else if (toShow === true) {
@@ -120,6 +137,17 @@ const App = () => {
     }
   }
 
+  const handleDelete = async (bikeToDelete) => {
+    try {
+      const deletedBike = await bikeService.removeBike(bikeToDelete)
+      console.log('succesfully removed', deletedBike)
+      setBikes(bikes.filter(bike => bike.id !== bikeToDelete.id))
+      setShowOne(false)
+    } catch (exception) {
+      console.log('error')
+    }
+  }
+
   const backToList = () => {
     setShowOne(false)
     setShowSearch(true)
@@ -128,6 +156,10 @@ const App = () => {
   const handleBrandChange = ({target}) => {
     setSearchBrand(target.value)
     setToShow(false)
+  }
+
+  const handleTypeChange = ({target}) => {
+    setType(target.value)
   }
 
   const clear = (event) => {
@@ -176,6 +208,7 @@ const App = () => {
   const logoutHandler = () => {
     setUser(null)
     window.localStorage.clear()
+    setLogButton('Kirjaudu sisään')
   }
 
   const handleRegButton = () => {
@@ -226,7 +259,10 @@ const App = () => {
       </div>
       <div className='newbikeform'>
         {addNew === true && <NewBikeForm 
-          brand={brand} model={model} year={year} price={price} addBike={addBike} handleImage={handleImage}
+          brand={brand} model={model} year={year} price={price} 
+          addBike={addBike} handleImage={handleImage}
+          location={location} description={description}
+          handleTypeChange={handleTypeChange}
         />}
       </div>
       <div className='filterbikes'>

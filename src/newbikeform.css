@@ -1,3 +1,9 @@
 .newbikeform {
-  width: 50%;  
+  width: 70%;  
+}
+.smalltext {
+  font-size: x-small;
+}
+.inputinfo {
+  width: 100px;
 }

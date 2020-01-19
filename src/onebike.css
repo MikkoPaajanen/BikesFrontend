@@ -6,8 +6,23 @@
   font-size: x-large;
   font-weight: bold;
   margin: 0;
+  width: 550px;
   padding-bottom: 30px;
+  display: inline-block;
 }
 .img {
   width: 550px;
+}
+.brandmodelyear {
+  width: 300px;
+  margin: 0;
+  padding: 0;
+}
+.price {
+  
+}
+.description {
+  margin: 0;
+  padding: 20px 0;
+  font-size: large;
 }
