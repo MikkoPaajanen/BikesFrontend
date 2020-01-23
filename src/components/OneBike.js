@@ -28,7 +28,7 @@ const OneBike = ({ bike, backToList, handleDelete, username }) => {
         Sijainti: {bike.location}
       </div>
       <div>
-        Yhteydenotto: 
+        Yhteydenotto: {bike.contact}
       </div>
     </div>
   )

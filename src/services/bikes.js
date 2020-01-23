@@ -13,22 +13,20 @@ const getAll = async () => {
   return response.data
 }
 
-const create = async (newBike) => {
+const create = async (newBike, data) => {
   const config = {
     headers: { Authorization: token }
   }
-  const bikeToPost = {
-    type: newBike.type,
-    brand: newBike.brand,
-    model: newBike.model,
-    year: newBike.year,
-    price: newBike.price,
-    location: newBike.location,
-    contact: newBike.contact,
-    description: newBike.description,
-    imgUrl: newBike.imgUrl
-  }
-  const response = await axios.post(baseUrl, bikeToPost, config)
+
+  data.append('type', newBike.type)
+  data.append('brand', newBike.brand)
+  data.append('model', newBike.model)
+  data.append('year', newBike.year)
+  data.append('price', newBike.price)
+  data.append('location', newBike.location)
+  data.append('contact', newBike.contact)
+  data.append('description', newBike.description)
+  const response = await axios.post(baseUrl, data, config)
   return response.data
 }
 

@@ -8,7 +8,6 @@ import RegisterForm from './components/RegisterForm'
 import bikeService from './services/bikes'
 import loginService from './services/login'
 import registerService from './services/register'
-import imageService from './services/images'
 import { useField } from './hooks/index'
 import './App.css'
 
@@ -66,7 +65,6 @@ const App = () => {
 
     const data = new FormData()
     data.append('File', image)
-    const returnedImage = await imageService.create(data)
 
     const newBike = {
       type: type,
@@ -76,11 +74,10 @@ const App = () => {
       price: price.value,
       location: location.value,
       contact: contact.value,
-      description: description.value,
-      imgUrl: returnedImage
+      description: description.value
     }
 
-    const returnedBike = await bikeService.create(newBike)
+    const returnedBike = await bikeService.create(newBike, data)
     setBikes(bikes.concat(returnedBike))
     brand.reset()
     model.reset()
