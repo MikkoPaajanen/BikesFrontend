@@ -1,5 +1,5 @@
 .onebike {
-  margin: 20px auto;
+  margin: 20px auto 60px auto;
   width: 50%;
 }
 .headinfo {
@@ -18,9 +18,7 @@
   margin: 0;
   padding: 0;
 }
-.price {
-  
-}
+
 .description {
   margin: 0;
   padding: 20px 0;
