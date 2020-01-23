@@ -10,7 +10,8 @@ const NewBike = ({
   handleImage,
   description,
   location,
-  handleTypeChange
+  handleTypeChange,
+  contact
 }) => {
   const biketypes = ['Maantie', 'Aika-ajo', 'Maasto täysjousitettu', 'Maasto etujousitettu',
   'Maasto jousittamaton', 'Hybridi', 'Cyclocross', 'Yksivaihteinen', 'Kaupunki' ]
@@ -50,6 +51,10 @@ const NewBike = ({
               <td><input {...location.withoutReset}></input></td>
             </tr>
             <tr>
+              <td className='inputinfo'>Yhteydenotto **</td>
+              <td><textarea {...contact.withoutReset}></textarea></td>
+            </tr>
+            <tr>
               <td className='inputinfo'>Kuva</td>
               <td><input type='file' onChange={handleImage}></input></td>
             </tr>
@@ -64,6 +69,9 @@ const NewBike = ({
             </tr>
             <tr>
               <td colSpan='2' className='smalltext'>* Tähdellä merkityt ovat pakollisia tietoja</td>
+            </tr>
+            <tr>
+              <td colSpan='2' className='smalltext'>** Sähköposti tai puhelinnumero</td>
             </tr>
           </tbody>        
         </table>

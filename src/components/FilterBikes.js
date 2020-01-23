@@ -11,7 +11,7 @@ const FilterBikes = ({
   const brands = bikes.map(bike => bike.brand)
   brands.sort()
   const uniqueBrands = [...new Set(brands)]
-  console.log('brands', uniqueBrands)
+
   return (
     <div className='search'>
       <h2>Haku</h2>

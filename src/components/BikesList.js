@@ -2,7 +2,7 @@ import React from 'react'
 import '../bikeslist.css'
 
 const BikesList = ({ bikes, bikeInfo }) => {
-  console.log('bikeslist', bikes)
+
   return (
     <div className='table'>
       {bikes.map(bike => (

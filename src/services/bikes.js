@@ -10,7 +10,6 @@ const setToken = newToken => {
 
 const getAll = async () => {
   const response = await axios.get(baseUrl)
-  console.log('response', response.data)
   return response.data
 }
 
@@ -25,6 +24,7 @@ const create = async (newBike) => {
     year: newBike.year,
     price: newBike.price,
     location: newBike.location,
+    contact: newBike.contact,
     description: newBike.description,
     imgUrl: newBike.imgUrl
   }

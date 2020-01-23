@@ -20,6 +20,7 @@ const App = () => {
   const price = useField('text')
   const location = useField('text')
   const description = useField('text')
+  const contact = useField('text')
   const [ searchBrand, setSearchBrand ] = useState('')
   const [ toShow, setToShow ] = useState(false)
   const [ bikeToShow, setBikeToShow ] = useState('')
@@ -49,7 +50,7 @@ const App = () => {
         setBikes(bikesDB)
       })
   }, [])
-  console.log('bikes', bikes)
+
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
@@ -62,11 +63,11 @@ const App = () => {
 
   const addBike = async (event) => {
     event.preventDefault()
-    console.log('image', image)
+
     const data = new FormData()
     data.append('File', image)
     const returnedImage = await imageService.create(data)
-    console.log('returnedImage', returnedImage)
+
     const newBike = {
       type: type,
       brand: brand.value,
@@ -74,10 +75,11 @@ const App = () => {
       year: year.value,
       price: price.value,
       location: location.value,
+      contact: contact.value,
       description: description.value,
       imgUrl: returnedImage
     }
-    console.log('newbike', newBike)
+
     const returnedBike = await bikeService.create(newBike)
     setBikes(bikes.concat(returnedBike))
     brand.reset()
@@ -92,12 +94,10 @@ const App = () => {
   }
 
   const handleImage = (event) => {
-    console.log('event target files', event.target.files[0])
     setImage(event.target.files[0])
   }
 
   const bikesToShow = () => {
-    console.log('user', user)
     const userToCheck = () => {
       if (user !== null) {
         return user.username
@@ -110,14 +110,12 @@ const App = () => {
     } else if (toShow === false) {
       return <BikesList bikes={bikes} bikeInfo={bikeInfo} />
     } else if (toShow === true) {
-      console.log('what', bikes.filter(bike => bike.brand.includes(searchBrand)))
       return <BikesList bikes={bikes.filter(bike => bike.brand.includes(searchBrand))} bikeInfo={bikeInfo} />
     }
   }
 
   const filterBikes = (event) => {
     event.preventDefault()
-    console.log('does this happen')
     setToShow(true)
   }
   
@@ -263,6 +261,7 @@ const App = () => {
           addBike={addBike} handleImage={handleImage}
           location={location} description={description}
           handleTypeChange={handleTypeChange}
+          contact={contact}
         />}
       </div>
       <div className='filterbikes'>
@@ -275,7 +274,7 @@ const App = () => {
         />}
       </div>
       <div className='bikeslist'>
-        {bikesToShow()}
+        {addNew === false && bikesToShow()}
       </div>
       <div className='footer'>
         <p className='footertext'>Copyright Mikko Paajanen 2020</p>

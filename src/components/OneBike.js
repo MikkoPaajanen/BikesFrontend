@@ -2,7 +2,7 @@ import React from 'react'
 import '../onebike.css'
 
 const OneBike = ({ bike, backToList, handleDelete, username }) => {
-  console.log('bikesOne', bike)
+
   const bikeUrl = bike.imgUrl
   return (
     <div className='onebike'>
