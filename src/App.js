@@ -85,6 +85,7 @@ const App = () => {
     price.reset()
     location.reset()
     description.reset()
+    contact.reset()
     
     setAddNew(false)
     setButtonText('Lisää pyörä')

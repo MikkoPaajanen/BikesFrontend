@@ -24,3 +24,12 @@
   padding: 20px 0;
   font-size: large;
 }
+
+@media screen and (max-width: 900px) {
+  .img {
+    width: 100%;
+  }
+  .headinfo {
+    width: 100%;
+  }
+}
